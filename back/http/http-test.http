@@ -1,0 +1,44 @@
+###  Login with user exist
+POST http://localhost:8080/auth/token
+Content-Type: application/json
+
+{
+  "email":  "admin@alten.com",
+  "password": "password"
+}
+
+> {% client.global.set("new-auth-token", response.body.access_token);  %}
+
+### Register User
+POST http://localhost:8080/auth/account
+Content-Type: application/json
+
+{
+  "username": "bouazizi",
+  "firstname": "abderrazzak",
+  "email":  "abderrazzak.bouazizi@alten.com",
+  "password": "password"
+}
+
+> {% client.global.set("auth-token", response.body.access_token);  %}
+
+### Create Product
+POST http://localhost:8080/products
+Content-Type: application/json
+Authorization: Bearer {{auth-token}}
+
+{
+  "code": "ACD21",
+  "name": "Product 1",
+  "description":  "Product test",
+  "category": "ACD",
+  "price": 90.00,
+  "quantity": 2,
+  "internalReference": "INSTOCK",
+  "rating": 2.8
+}
+
+### Get all products
+GET http://localhost:8080/products
+Authorization: Bearer {{auth-token}}
+
